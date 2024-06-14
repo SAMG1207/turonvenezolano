@@ -1,0 +1,113 @@
+.video-container {
+    position: relative;
+    /* padding-bottom: 56.25%; Proporción 16:9 (dividir 9 entre 16 y multiplicar por 100) */
+    padding-top: 30px; /* Añadir espacio opcional arriba; puede cambiar esto según tus necesidades */
+    height: 500px;
+    overflow:hidden;
+}
+
+.anuncio{
+    background-color: #ff7e5f;
+    /* Para navegadores que soportan gradientes */
+    background-image: linear-gradient(to bottom, #f67c19, #feb47b, #fff28f, #3e5bbb);
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 500px;
+}
+.enunciado{
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: xx-large;
+}
+
+#map{
+    width: 500px;
+    height: 300px;
+    border-radius: 20px;
+    border-style: solid;
+}
+
+.resaltado{
+    background-color: #f7ff03;
+    background-size: cover;
+}
+
+.cart{
+    height: 60px;
+    width: 50px;
+    background-color: white;
+    position: absolute;
+    right: 10px;
+    border-radius: 50%;
+}
+.cart i{
+    margin: 0 auto;
+    transform: translate(50%, 50%);
+}
+.market{
+    min-width: 100%;
+    min-height: 100%;
+    background-image: url("../img/bg.jpg");
+    /* background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%); */
+  
+    background-size: cover;
+}
+
+
+  .administrador{
+    min-height: 100vh;
+    background-image: url("../img/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  
+  .carrito-container {
+    position: relative;
+}
+
+.circulo {
+    width: 25px;
+    height: 25px;
+    background-color: rgba(255, 255, 255, 0.807);
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+}
+#cantidad{
+    position: relative;
+    /* margin-top: 15px; */
+    transform: translateY(50%);
+   
+}
+
+.contenedor{
+    width: 40px;
+}
+
+img.imagenBotella{
+    width:300px;
+    height: 300px;
+    opacity: 0.75;
+}
+
+@media (max-width: 768px) { /* Cambiar el tamaño del video en pantallas más pequeñas */
+    .video-container {
+      padding-bottom: 75%; /* Cambiar la relación de aspecto para adaptarse mejor a pantallas más pequeñas */
+    }
+  }
