@@ -27,23 +27,20 @@ class Compra extends User{
         }
     
 
-    public function selectCompras(){
-    try{
-        $sql = "SELECT * FROM compras WHERE idUser = ?";
-        $stmt = $this->pdo->connect()->prepare($sql);
-        $stmt->bindParam(1, $this->idUser);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-        if($stmt->rowCount()>0){
-            return $rows;
-        }else{
-            return false;
+        public function selectCompras() {
+            try {
+                $sql = "SELECT * FROM compras WHERE idUser = ?";
+                $stmt = $this->pdo->connect()->prepare($sql);
+                $stmt->bindParam(1, $this->idUser);
+                $stmt->execute();
+                $rows = $stmt->fetchAll();
+                return $rows; // Devuelve siempre el array, puede estar vacío si no hay resultados
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+                return []; // Devuelve un array vacío en caso de error
+            }
         }
-    }catch(Exception $e){
-        echo "Error: " . $e->getMessage();
-        return false;
-      }   
-    }
+        
    
     public function selectIdDireccion($direccion){
         $sql = "SELECT idDireccion FROM direccionenvio WHERE nombre = ?";

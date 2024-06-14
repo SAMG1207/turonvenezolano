@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../src/scripts/administrador.script.php';
+require_once __DIR__ . '/../../src/scripts/administrador.script.php';
 ?>
 
 <!DOCTYPE html>
@@ -156,5 +156,5 @@ require_once __DIR__ . '/../src/scripts/administrador.script.php';
     </div>
  </div>   
 </body>
-<script src="js/administrador.js"></script>
+<script src="public/js/administrador.js"></script>
 </html>

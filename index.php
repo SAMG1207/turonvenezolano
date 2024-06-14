@@ -8,15 +8,29 @@ $uri = strtok($uri, '?');
 
 // Enrutamiento básico
 switch ($uri) {
-    case '/':
-    case '/index.php':
-        require 'turonvenezolano\public\view\index.php';
+    case '/turonvenezolano/':
+    case '/turonvenezolano/index.php':
+        require 'public/view/index.php';
         break;
-    // Aquí puedes agregar más rutas según sea necesario
-    // Por ejemplo:
-    // case '/another-page':
-    //     require 'public/view/another-page.php';
-    //     break;
+
+    case '/turonvenezolano/preventa':
+        require 'public/view/preventa.php';
+        break;
+
+    case '/turonvenezolano/pedidos':
+        require 'public/view/pedidos.html.php';
+        break;    
+    case '/turonvenezolano/regdireccion':
+        require 'public/view/regdirection.html.php';
+        break;  
+
+     case '/turonvenezolano/detallado':
+        require 'public/view/detallado.html.php';
+        break; 
+
+    case '/turonvenezolano/administrador':
+        require 'public/view/administrador.html.php';
+         break;
     default:
         echo "Página no encontrada";
         http_response_code(404);

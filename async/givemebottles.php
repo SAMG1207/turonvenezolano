@@ -3,7 +3,7 @@ include '../src/includes/autoloader.inc.php';
 
 if($_SERVER["REQUEST_METHOD"]==="GET" && isset($_GET["marca"])){
     try{
-        $marca = Basic::isPotentiallyDangerous($_GET["marca"])?$_GET["marca"]:"";
+        $marca = $_GET["marca"];
         $stock = new Stock();
         $botellas = $stock->seleccionaModeloPorMarca($marca);
         echo json_encode($botellas);

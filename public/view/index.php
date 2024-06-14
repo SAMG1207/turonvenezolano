@@ -85,11 +85,13 @@ require_once 'src/includes/function.php';
     <?php if(isset($_SESSION["email"])): ?>
 
       <li class="nav-item">
-         <a class="nav-link enunciado" href="regdirection.php" target="_blank">Registrar Direcciones</a>
+         <!-- <a class="nav-link enunciado" href="regdirection.php" target="_blank">Registrar Direcciones</a> -->
+         <a class="nav-link enunciado" href="regdireccion" target="_blank">Registrar Direcciones</a>
       </li>
 
       <li class="nav-item">
-         <a class="nav-link enunciado" href="pedidos.php">Mis Pedidos</a>
+         <!-- <a class="nav-link enunciado" href="pedidos.php">Mis Pedidos</a> -->
+         <a class="nav-link enunciado" href="pedidos">Mis Pedidos</a>
       </li>
     
       <li class='nav-item justify-content-center mx-3 mt-3'>
@@ -101,7 +103,7 @@ require_once 'src/includes/function.php';
       </ul>
       <div class="position-relative contenedor">
       <div class="d-flex carrito-container ms-auto">
-        <a href="preventa.php">
+        <a href="preventa">
         <button class="btn btn-outline-success" type="submit">
                <i class="bi bi-cart"></i>
           </button>

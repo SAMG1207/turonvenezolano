@@ -11,8 +11,8 @@
 
 
           //URLs para fetchs
-        let URLProvincia = '../async/provincia.php?idCCAA='
-        let URLMunicipio =  '../async/municipio.php?idProvincia='
+        let URLProvincia = 'async/provincia.php?idCCAA='
+        let URLMunicipio =  'async/municipio.php?idProvincia='
 
         //Métodos Genéricos
         function removeAllChildren(padre){
@@ -52,6 +52,7 @@ function manejarEvento(event) {
         var URL =URLProvincia+ccaa.value
         var response = await fetchURL(URL);
         var provincias = response.data;
+        console.log(provincias)
         var datosSeparadosProvincias =[];
         datosSeparadosProvincias = provincias.map(item=>({
                 idProvincia: item.idProvincia,

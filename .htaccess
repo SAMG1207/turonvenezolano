@@ -2,9 +2,13 @@
 RewriteEngine On
 
 # Redirigir todas las solicitudes que no sean archivos o directorios existentes a router.php
+# .htaccess
+RewriteEngine On
+RewriteBase /turonvenezolano/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ router.php [QSA,L]
+RewriteRule ^(.*)$ index.php [QSA,L]
+
 
 # Redirigir HTTP a HTTPS
 RewriteCond %{HTTPS} off

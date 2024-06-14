@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../src/scripts/preventa.script.php';
+require_once __DIR__."/../../src/scripts/preventa.script.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

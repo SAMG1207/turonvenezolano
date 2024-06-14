@@ -82,11 +82,14 @@ function returnMeResponse(URL){
   }
 
 let responsePrecio=[]
+
+
 async function addBottles(marca, modelo) {
   var marcaSeleccionada = encodeURIComponent(marca.value).replace(/%20/g, '+');
   console.log(marcaSeleccionada);
-   var URL = "../async/givemebottles.php?marca=" + marcaSeleccionada;
+   var URL = "async/givemebottles.php?marca=" + marcaSeleccionada;
     var response = await returnMeResponse(URL);
+    console.log(URL)
     var responseModelo=[]
     responsePrecio=[]
       response.forEach(item => {

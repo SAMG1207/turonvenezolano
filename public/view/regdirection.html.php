@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../src/scripts/regdirection.script.php';
+require_once __DIR__ . '/../../src/scripts/regdirection.script.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,6 +82,6 @@ require_once __DIR__ . '/../src/scripts/regdirection.script.php';
             </div>
         </div>
     </div>
-    <script src="js/regDirection.js" type="module"></script>
+    <script src="public/js/regDirection.js" type="module"></script>
 </body>
 </html>
