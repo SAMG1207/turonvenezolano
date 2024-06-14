@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
         if (emailUser) {
           console.log(idBottle, emailUser);
-          let url = `../async/insertPreventa.php?id_botella=${idBottle}&email=${emailUser}`;
+          let url = `async/insertPreventa.php?id_botella=${idBottle}&email=${emailUser}`;
 
           for (let i = 0; i < cantidadAComprar; i++) {
             if (i < limite) {
@@ -58,32 +58,32 @@ document.addEventListener("DOMContentLoaded", async function() {
     });
   });
 
-  // async function loadscript(data) {
-  //   var script = document.createElement("script");
-  //   script.src = "https://maps.googleapis.com/maps/api/js?key=" + data + "&callback=initMap";
-  //   script.async = true;
-  //   script.onload = () => { initMap(); };
-  //   document.body.appendChild(script);
-  // }
+   async function loadscript(data) {
+     var script = document.createElement("script");
+     script.src = "https://maps.googleapis.com/maps/api/js?key=" + data + "&callback=initMap";
+     script.async = true;
+    script.onload = () => { initMap(); };
+    document.body.appendChild(script);
+   }
 
-  // try {
-  //   let response = await fetch("../async/apikey.php");
-  //   let data = await response.json();
-  //   await loadscript(data);
-  // } catch (error) {
-  //   console.log(error);
-  // }
+   try {
+     let response = await fetch("async/apikey.php");
+     let data = await response.json();
+     await loadscript(data);
+   } catch (error) {
+     console.log(error);
+   }
 
-  // async function initMap() {
-  //   let coord = { lat: 40.408590, lng: -3.707530 };
-  //   let map = new google.maps.Map(document.getElementById('map'), {
-  //     zoom: 15,
-  //     center: coord
-  //   });
+   async function initMap() {
+     let coord = { lat: 40.408590, lng: -3.707530 };
+     let map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: coord
+     });
 
-  //   let marker = new google.maps.Marker({
-  //     position: coord,
-  //     map: map
-  //   });
-  // }
+     let marker = new google.maps.Marker({
+       position: coord,
+    map: map
+     });
+   }
 });

@@ -1,8 +1,9 @@
 <?php 
 
 require_once __DIR__ . '/../includes/sesion_config.php';
-require_once __DIR__ . '/../includes/autoloader.inc.php';
+require_once __DIR__ . '/../includes/autoloader.inc.php'; 
 require_once __DIR__ . '/../../vendor/autoload.php';
+
 
 
 $stock = new Stock();
@@ -11,7 +12,7 @@ $passConnect = new Pass();
 if (!isset($_SESSION["email"])) {
   $clientID = $passConnect->giveMeG("googleClientIDAuth");
   $clientSecret =$passConnect->giveMeG("GoogleClientAuthSecret");
-  $redirectUri = 'https://localhost/turonvenezolano/public/index.php';
+  $redirectUri = 'https://localhost/turonvenezolano/index.php';
   $logedIn = false;
 
     $client = new Google_Client();

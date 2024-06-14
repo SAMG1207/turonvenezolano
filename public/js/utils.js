@@ -1,20 +1,20 @@
 export async function countCar(email) {
-  var URL = `../async/countCar.php?email=${encodeURIComponent(email)}`;
+  var URL = `async/countCar.php?email=${encodeURIComponent(email)}`;
 
-  // try {
+   try {
       const response = await fetch(URL);
       if (response.ok) {
           const data = await response.json(); // Parsear la respuesta JSON
           console.log("Éxito count Car:", data);
           return data.count; // Retornar los datos obtenidos
-      // } else {
-      //     throw new Error('La solicitud fetch falló');
-      // }
-  // } catch (error) {
-  //     console.error('Error en countCar:', error);
-  //     return null; // Retorna null en caso de error
-  // }
-}}
+       } else {
+           throw new Error('La solicitud fetch falló');
+       }
+    } catch (error) {
+       console.error('Error en countCar:', error);
+       return null; // Retorna null en caso de error
+  }
+}
 
 export async function actualizaCarrito(email){
   document.getElementById("cantidad").innerText = await countCar(email);

@@ -1,5 +1,6 @@
 <?php 
-require_once __DIR__ . '/../src/scripts/index.script.php';
+require_once 'src/scripts/index.script.php';
+require_once 'src/includes/function.php';
 // require_once '../vendor/autoload.php';
 // require_once '../src/includes/autoloader.inc.php';
 // require_once '../src/includes/routing.php';
@@ -8,7 +9,17 @@ require_once __DIR__ . '/../src/scripts/index.script.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<?php echo window::renderHead("Tu Ron Venezolano")?>
+<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="public/css/style.css">
+        <link rel="icon" href="public/img/ron.png" sizes="16x16" type="image/png">
+        <link rel="icon" href="public/img/ron.png" sizes="32x32" type="image/png">
+        <title>Tu Ron Venezolano</title>
       
   <script>
     <?php echo "let emailUser = " . json_encode($emailClean) . ";" ?>
@@ -23,7 +34,7 @@ require_once __DIR__ . '/../src/scripts/index.script.php';
     <div class="container-fluid w-100">
         <div class="row">
           <div class="video-container">
-           <iframe class="embed-responsive-item" src="img/playa.mp4"></iframe>
+           <iframe class="embed-responsive-item" src="public/img/playa.mp4"></iframe>
           </div>
         </div>
     </div>
@@ -122,7 +133,7 @@ require_once __DIR__ . '/../src/scripts/index.script.php';
     $section .= "<h1>".$marca["marca"]."</h1>";
     foreach($elementos as $elemento){
       $section .="<div class='col-lg-4 p-2 mercancia'>";
-      $section .= "<img src=\"../back/imgs/" . $elemento["fotoUrl"] . "\" alt=\"\" class='imagenBotella shadow-lg border rounded-4'>";
+      $section .= "<img src=\"back/imgs/" . $elemento["fotoUrl"] . "\" alt=\"\" class='imagenBotella shadow-lg border rounded-4'>";
       $section .="<h4 class='text-center mt-1 botellas'id=".$elemento["idBotella"]." value=".json_encode($elemento["idBotella"]).">".$elemento["marca"]." ".$elemento["modelo"]." solo por €".$elemento["precio"]."</h4>";
       $section .= "<label for ='cantidad'>Cantidad </label>";
       $cantidad = json_encode($stock->cuentaAlmacen($elemento["idBotella"]));
@@ -136,7 +147,7 @@ require_once __DIR__ . '/../src/scripts/index.script.php';
    ?>
   </section>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="js/index.js" type="module"></script>
+<script src="public/js/index.js" type="module"></script>
 <!-- <script src="js/js.js"></script> -->
 </body>
 </html>
