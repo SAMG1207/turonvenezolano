@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 require_once "exceptionE.class.php";
 class Stock{
     
@@ -11,9 +12,7 @@ class Stock{
         $this->pdo = new Connection();
     }
     
-
-
-    public function seleccionaMarcas(){
+    public function seleccionaMarcas():array{
         $sql="SELECT DISTINCT marca FROM productos";
         $stmt = $this->pdo->connect()->prepare($sql);
         $stmt->execute();
@@ -29,19 +28,29 @@ class Stock{
         $data = stripslashes($data);
         return $data;
     }
-    public function insertarBBDD($marca, $modelo,$precio, $fotoURL){
-        $sql = "INSERT INTO productos(marca, modelo, precio, fotoUrl) values (?, ?, ?, ?)";
-        $stmt= $this->pdo->connect()->prepare($sql);
-        $stmt->bindParam(1,$marca);
-        $stmt->bindParam(2,$modelo);
-        $stmt ->bindParam(3, $precio);
-        $stmt->bindParam(4, $fotoURL);
-        $stmt ->execute();
-        $this->pdo->close();
+    public function insertarBBDD(string $marca, string $modelo, string $precio, string $fotoURL):bool{
+        try{
+            $sql = "INSERT INTO productos(marca, modelo, precio, fotoUrl) values (?, ?, ?, ?)";
+            $stmt= $this->pdo->connect()->prepare($sql);
+            $this->pdo->connect()->beginTransaction();
+            $stmt->bindParam(1,$marca);
+            $stmt->bindParam(2,$modelo);
+            $stmt ->bindParam(3, $precio);
+            $stmt->bindParam(4, $fotoURL);
+            $stmt ->execute();
+            $this->pdo->connect()->commit();
+            $this->pdo->close();
+            return true;
+        }catch(ExceptionE $e){
+            $this->pdo->connect()->rollBack();
+            echo $e->getMessage();
+            return false;
+        }
+     
     }
 
 
-    public function revisarBBDD($marca, $modelo){
+    public function revisarBBDD(string $marca, string $modelo):bool{
         $sql = "SELECT * FROM productos WHERE marca = ? AND modelo = ?";
         $stmt= $this->pdo->connect()->prepare($sql);
         $stmt->bindParam(1,$marca);
@@ -50,7 +59,7 @@ class Stock{
         return $stmt->rowCount()>0;
     }
 
-    public function seleccionaModeloPorMarca($marca){
+    public function seleccionaModeloPorMarca(string $marca):array{
         $sql = "SELECT * FROM productos WHERE marca = ?";
         $stmt= $this->pdo->connect()->prepare($sql);
         $stmt->bindParam(1,$marca);
@@ -59,7 +68,7 @@ class Stock{
         return $rows;
     }
 
-    public function seleccionaIdPorModelo($marca, $modelo){
+    public function seleccionaIdPorModelo(string $marca, string $modelo):array{
         $sql = "SELECT * FROM productos WHERE marca = ? AND modelo =?";
         $stmt= $this->pdo->connect()->prepare($sql);
         $stmt->bindParam(1,$marca);
@@ -81,31 +90,46 @@ class Stock{
         return $rows["precio"];
     }
 
-    public function entradaNueva($marca, $modelo, $cantidad){
-       
-        $sql="INSERT INTO almacen(id_botella, fecha, estado) VALUES (?,?,?)";
-        $fecha = date('Y-m-d');
-        $id = $this->seleccionaIdPorModelo($marca, $modelo);
-        $stmt= $this->pdo->connect()->prepare($sql);
-        
-        for($i = 0; $i<$cantidad; $i++){
-            $estado ="almacen";
-            $stmt->bindParam(1,$id);
-            $stmt->bindParam(2,$fecha);
-            $stmt->bindParam(3,$estado);
-            $stmt->execute();
+    public function entradaNueva(string $marca, string $modelo, int $cantidad):bool{
+        try{
+            $sql="INSERT INTO almacen(id_botella, fecha, estado) VALUES (?,?,?)";
+            $fecha = date('Y-m-d');
+            $id = $this->seleccionaIdPorModelo($marca, $modelo);
+            $this->pdo->connect()->beginTransaction();
+            $stmt= $this->pdo->connect()->prepare($sql);
+            
+            for($i = 0; $i<$cantidad; $i++){
+                $estado ="almacen";
+                $stmt->bindParam(1,$id);
+                $stmt->bindParam(2,$fecha);
+                $stmt->bindParam(3,$estado);
+                $stmt->execute();
+            }
+            $this->pdo->connect()->commit();
+            $this->pdo->close();
+            return true;
+        }catch(Exception $e){
+            $this->pdo->connect()->rollBack();
+            $this->pdo->close();
+            return false;
         }
-        
+       
     }
 
-    public function countMarcaModelo($marca, $modelo){
-        $sql ="SELECT COUNT(*) AS total FROM productos WHERE marca = ? AND modelo = ?";
-        $stmt= $this->pdo->connect()->prepare($sql);
-        $stmt->bindParam(1,$marca);
-        $stmt->bindParam(2,$modelo);
-        $stmt->execute();
-        $row = $stmt->fetch();
-        return $row["total"];
+    public function countMarcaModelo(string $marca, string $modelo):array{
+        try{
+            $sql ="SELECT COUNT(*) AS total FROM productos WHERE marca = ? AND modelo = ?";
+            $stmt= $this->pdo->connect()->prepare($sql);
+            $stmt->bindParam(1,$marca);
+            $stmt->bindParam(2,$modelo);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            return $row["total"];
+        }catch(ExceptionE $e){
+            echo $e->getMessage();
+            return [];
+        }
+       
     }
 
     public function updatePrecio($precio, $marca, $modelo) {
