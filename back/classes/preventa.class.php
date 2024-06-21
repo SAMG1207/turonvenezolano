@@ -51,18 +51,25 @@ Class Preventa extends User{
             $fechaH = new DateTime();
             $fechaString = $fechaH->format('Y-m-d H:i:s');
             $stmtInsert = $this->pdo->connect()->prepare($insertSql);
-            $stmtInsert->bindParam(1, $idSeleccionado); // Use $idBotella or $idSeleccionado depending on your schema
+            $this->pdo->connect()->beginTransaction();
+            $stmtInsert->bindParam(1, $idSeleccionado); 
             $stmtInsert->bindParam(2, $this->idUser);
             $stmtInsert->bindParam(3, $fechaString);
             $stmtInsert->execute();
+            $this->pdo->connect()->commit();
+            $this->pdo->close();
             return true;
         } catch (PDOException $e) {
             // Log or handle the PDO exception
             echo "PDOException: " . $e->getMessage();
+            $this->pdo->connect()->rollBack();
+            $this->pdo->close();
             return false;
         } catch (Exception $e) {
             // Handle other exceptions
             echo "Exception: " . $e->getMessage();
+            $this->pdo->connect()->rollBack();
+            $this->pdo->close();
             return false;
         }
     }

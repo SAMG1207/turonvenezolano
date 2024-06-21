@@ -21,7 +21,7 @@ if(isset($_SESSION["nombre"])
             if($insert){
                    $update = $compra->updateAlmacen();
                    if($update){
-                    header("location:https://localhost/turonvenezolano/src/index.php");
+                    header("location:https://localhost/turonvenezolano/index");
                     exit();
                    }
             }

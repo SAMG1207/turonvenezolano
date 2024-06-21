@@ -1,6 +1,6 @@
 
 
-import { countCar, actualizaCarrito } from './utils.js';
+import { countCar, actualizaCarrito, soloNumeros } from './utils.js';
 
 document.addEventListener("DOMContentLoaded", async function() {
   
@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async function() {
       } else {
         let idBottle = idsBotellas[index];
         let cantidadAComprar = cantidadesDisponibles[index].value;
-        let limite = cantidadesDisponibles[index].getAttribute("max");
-
+        if(soloNumeros(cantidadAComprar)){
+          let limite = cantidadesDisponibles[index].getAttribute("max");
         if (emailUser) {
           console.log(idBottle, emailUser);
           let url = `async/insertPreventa.php?id_botella=${idBottle}&email=${emailUser}`;
@@ -54,6 +54,8 @@ document.addEventListener("DOMContentLoaded", async function() {
             }
           }
         }
+        }
+        
       }
     });
   });

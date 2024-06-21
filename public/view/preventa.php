@@ -59,7 +59,7 @@ require_once __DIR__."/../../src/scripts/preventa.script.php";
                     </div>
                     <?php if($precioTotal > 0):?>
                     <div>
-                        <form action="localhost/src/scripts/comprar.php" method="post">
+                        <form action="/turonvenezolano/comprar" method="post">
                         <?php
                         $label ="<div class='bg-light mb-2'>";
                         $label .= "<h3 class='border border-bottom'> Seleccione la dirección de envío </h3>";
@@ -77,11 +77,11 @@ require_once __DIR__."/../../src/scripts/preventa.script.php";
                         </form>
                     </div>
                     <?php endif; ?>
-                    <a href="index.php"><button type="button" class="btn btn-primary w-100 mb-1 border border-dark shadow-lg"><h6>Volver a la página principal</h6></button></a>
+                    <a href="index"><button type="button" class="btn btn-primary w-100 mb-1 border border-dark shadow-lg"><h6>Volver a la página principal</h6></button></a>
                </div>
             </div>
         </div>
     </div>
-    <script src="js.js"></script>
+    <script src="public/js.js"></script>
 </body>
 </html>

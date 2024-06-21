@@ -38,11 +38,11 @@ if( isset($_SESSION["email"])&&
         $lista ="<p>No hay compras con este número de pedido </p>";
       }
     }else{
-      header("location:index.php");
+      header("location:index");
       exit();
     }
 
     }else{
-      header("location:index.php");
+      header("location:index");
       exit();
     }

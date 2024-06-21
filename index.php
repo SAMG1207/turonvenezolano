@@ -9,7 +9,7 @@ $uri = strtok($uri, '?');
 // Enrutamiento básico
 switch ($uri) {
     case '/turonvenezolano/':
-    case '/turonvenezolano/index.php':
+    case '/turonvenezolano/index':
         require 'public/view/index.php';
         break;
 
@@ -31,6 +31,9 @@ switch ($uri) {
     case '/turonvenezolano/administrador':
         require 'public/view/administrador.html.php';
          break;
+         case '/turonvenezolano/comprar':
+            require 'src/scripts/comprar.php';
+            break;
     default:
         echo "Página no encontrada";
         http_response_code(404);

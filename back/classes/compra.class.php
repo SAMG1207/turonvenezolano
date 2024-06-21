@@ -48,21 +48,25 @@ class Compra extends User{
         $stmt->execute([$direccion]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function insertVenta( $total, $direccion){
+    public function insertVenta(float $total, string $direccion):bool{
         $fechaH = new DateTime();
         $fechaString = $fechaH->format('Y-m-d H:i:s');
         $idDireccion = $this->selectIdDireccion($direccion)["idDireccion"];
         $sql = "INSERT INTO compras (idUser, fechaCompra, direccion, totalCompra) VALUES(?,?,?,?)";
         try{
+            $this->pdo->connect()->beginTransaction();
             $stmt = $this->pdo->connect()->prepare($sql);
             $stmt->bindParam(1, $this->idUser);
             $stmt->bindParam(2, $fechaString);
             $stmt->bindParam(3, $idDireccion);
             $stmt->bindParam(4, $total);
             $stmt->execute();
+            $this->pdo->connect()->commit();
             return true;
         }catch(Exception $e){
+           $this->pdo->connect()->rollBack();
            echo "Error: ". $e->getMessage();
+           return false;
         }
      
     }
@@ -107,10 +111,13 @@ class Compra extends User{
         }
         $sql .= implode(", ", $values);
         try {
+            $this->pdo->connect()->beginTransaction();
             $stmt = $this->pdo->connect()->prepare($sql);
             $stmt->execute();
+            $this->pdo->connect()->commit();
             return true; 
         } catch (PDOException $e) {
+            $this->pdo->connect()->rollBack();
             return false; 
         }
     }
@@ -122,12 +129,16 @@ class Compra extends User{
         
         $sql = "UPDATE almacen SET estado ='vendida', fechaCambio = ? WHERE estado = 'preventa' AND id_entrada IN (" . implode(", ", $ids) . ");";
         try {
+            $this->pdo->connect()->beginTransaction();
             $stmt = $this->pdo->connect()->prepare($sql);
             $stmt->bindParam(1, $fecha);
             $stmt->execute();
+            $this->pdo->connect()->commit();
             return true; 
         } catch (PDOException $e) {
-            return $e->getMessage(); 
+            echo $e->getMessage(); 
+            $this->pdo->connect()->rollBack();
+            return false; 
         }
     }
 

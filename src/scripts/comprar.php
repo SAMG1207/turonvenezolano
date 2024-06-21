@@ -1,9 +1,16 @@
 <?php
 
-require_once '../src/includes/sesion_config.php';
-require_once '../src/includes/autoloader.inc.php';
-require "../vendor/autoload.php";
-include_once "../back/classes/connect_pass.class.php";
+require_once __DIR__ . '/../includes/sesion_config.php';
+
+require_once __DIR__ . '/../includes/autoloader.inc.php';
+
+require_once  "vendor/autoload.php";
+
+
+
+// Resto de tu código aquí
+
+// include_once "../back/classes/connect_pass.class.php";
 
 if (isset($_SESSION["email"]) && isset($_SESSION["nombre"]) && isset($_POST["de"]) && isset($_POST["totalAPagar"])) {
     $name = $_SESSION["nombre"];
@@ -38,7 +45,7 @@ if (isset($_SESSION["email"]) && isset($_SESSION["nombre"]) && isset($_POST["de"
     $checkOutSession = \Stripe\Checkout\Session::create([
         "mode" => "payment",
         "success_url" => "https://localhost/turonvenezolano/src/includes/buyLogic.php",
-        "cancel_url" => "https://localhost/turonvenezolano/public/preventa.php",
+        "cancel_url" => "https://localhost/turonvenezolano/preventa",
         "locale" => "es",
         "line_items" => $line_items
     ]);
@@ -47,6 +54,6 @@ if (isset($_SESSION["email"]) && isset($_SESSION["nombre"]) && isset($_POST["de"
     header("Location: " . $checkOutSession->url);
     exit();
 } else {
-    header("Location: https://localhost/turonvenezolano/src/index.php");
+    header("Location: https://localhost/turonvenezolano/index");
     exit();
 }

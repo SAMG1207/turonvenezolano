@@ -12,7 +12,7 @@ $passConnect = new Pass();
 if (!isset($_SESSION["email"])) {
   $clientID = $passConnect->giveMeG("googleClientIDAuth");
   $clientSecret =$passConnect->giveMeG("GoogleClientAuthSecret");
-  $redirectUri = 'https://localhost/turonvenezolano/index.php';
+  $redirectUri = 'https://localhost/turonvenezolano/index';
   $logedIn = false;
 
     $client = new Google_Client();
@@ -46,7 +46,7 @@ if (!isset($_SESSION["email"])) {
         }
         $user->insertSession($id);
         // Redirige al usuario a otra página después de la autenticación
-        header("Location: index.php");
+        header("Location: https://localhost/turovenezolano/");
         exit; // Detiene la ejecución del script después de redirigir
     } else {
         // Si no hay un código de autorización, genera el enlace de inicio de sesión de Google
@@ -64,6 +64,6 @@ if($_SERVER["REQUEST_METHOD"]==="POST" &&
 isset($_POST["cerrar"])){
   session_unset();
   session_destroy();
-  header("Location: index.php");
+  header("Location: index");
   exit;
 }
