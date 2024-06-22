@@ -16,49 +16,41 @@ Class Preventa extends User{
         }
     }
     
-    private function selectBotellaAlmacen(int $id):int{
-        try{
+    private function selectBotellaAlmacen(int $id): int {
+        try {
             $selectSql = "SELECT id_entrada FROM almacen WHERE id_botella = ? AND estado = 'almacen'";
             $stmtSelect = $this->pdo->connect()->prepare($selectSql);
             $stmtSelect->bindParam(1, $id);
             $stmtSelect->execute();
             $idSeleccionado = $stmtSelect->fetch(PDO::FETCH_ASSOC);
-            $this->pdo->close();
+            
             if ($idSeleccionado === false) {
                 throw new Exception("No entry found in 'almacen' with id_botella = $id and estado = 'almacen'");
             }
             return $idSeleccionado["id_entrada"];
-        }catch(ExceptionE $e){
+        } catch (Exception $e) {
             $e->getMessage();
-            $this->pdo->close();
             return 0;
         }
     }
 
-    private function updateAlmacenPreventa(int $id):bool{
+    private function updateAlmacenPreventa(int $id): bool {
         $fecha = date('Y-m-d');
 
-        try{
+        try {
             $sqlUpdate = "UPDATE almacen SET estado = 'preventa', fechaCambio = ? WHERE id_entrada = ?";
             $stmtUpdate = $this->pdo->connect()->prepare($sqlUpdate);
-            $this->pdo->connect()->beginTransaction();
             $stmtUpdate->bindParam(1, $fecha);
             $stmtUpdate->bindParam(2, $id);
             $stmtUpdate->execute();
-            $this->pdo->connect()->commit();
-            $this->pdo->close();
             return true;
-        }catch(Exception $e){
-            echo $e->getMessage();
-            $this->pdo->connect()->rollBack();
-            $this->pdo->close();
+        } catch (Exception $e) {
+            $e->getMessage();
             return false;
         }
-       
+    }
 
-    }   
-
-    private function insertPreventa(int $idSeleccionado):void {
+    private function insertPreventa(int $idSeleccionado): bool {
         try {
             $insertSql = "INSERT INTO preventa (id_entrada, id_usuario, fechaHora) VALUES (?, ?, ?)";
             $fechaH = new DateTime();
@@ -68,33 +60,38 @@ Class Preventa extends User{
             $stmtInsert->bindParam(2, $this->idUser);
             $stmtInsert->bindParam(3, $fechaString);
             $stmtInsert->execute();
+            return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            $e->getMessage();
+            return false;
         }
     }
 
-        public function alterTable(int $idBotella):bool{
-            
-            try{
-                $this->pdo->connect()->beginTransaction();
-                $idSeleccionado = $this->selectBotellaAlmacen($idBotella); //SELECCIONAMOS LAS BOTELLAS A CAMBIAR.
-                if ($idSeleccionado === false) {
-                    throw new Exception("No entry found in 'almacen' with id_botella = $idBotella and estado = 'almacen'");
-                    
-                }
-                $this->updateAlmacenPreventa($idBotella);
-                $this->insertPreventa($idBotella);
-                $this->pdo->connect()->commit();
-                $this->pdo->close();
-                return true;
+    public function alterTable(int $idBotella): bool {
+        try {
+            $this->pdo->connect()->beginTransaction();
 
-            }catch(Exception $e){
-                $this->pdo->connect()->rollBack();
-                $this->pdo->close();
-                echo $e->getMessage();
-                return false;
+            $idSeleccionado = $this->selectBotellaAlmacen($idBotella); //SELECCIONAMOS LAS BOTELLAS A CAMBIAR.
+            if ($idSeleccionado === 0) {
+                throw new Exception("No entry found in 'almacen' with id_botella = $idBotella and estado = 'almacen'");
             }
+
+            if (!$this->updateAlmacenPreventa($idSeleccionado)) {
+                throw new Exception("Failed to update almacen");
+            }
+
+            if (!$this->insertPreventa($idSeleccionado)) {
+                throw new Exception("Failed to insert into preventa");
+            }
+
+            $this->pdo->connect()->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->pdo->connect()->rollBack();
+            $e->getMessage();
+            return false;
         }
+    }
 
     // public function alterTable($idBotella, string $email, $limit = 1) {
     //     try {$fecha = date('Y-m-d');

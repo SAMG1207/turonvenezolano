@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function() {
       } else {
         let idBottle = idsBotellas[index];
         let cantidadAComprar = cantidadesDisponibles[index].value;
-        if(soloNumeros(cantidadAComprar)){
+        if(soloNumeros(cantidadAComprar) && cantidadAComprar>0){
           let limite = cantidadesDisponibles[index].getAttribute("max");
         if (emailUser) {
           console.log(idBottle, emailUser);

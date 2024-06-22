@@ -6,7 +6,7 @@ Class User{
 protected Connection $pdo;
 protected string $email;
  
-public function __construct(string $email,){
+public function __construct(string $email){
   
     $this->email = $email;
     $this->pdo = new Connection();

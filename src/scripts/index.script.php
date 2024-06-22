@@ -46,7 +46,7 @@ if (!isset($_SESSION["email"])) {
         }
         $user->insertSession($id);
         // Redirige al usuario a otra página después de la autenticación
-        header("Location: https://localhost/turovenezolano/");
+        header("Location: https://localhost/turonvenezolano/index");
         exit; // Detiene la ejecución del script después de redirigir
     } else {
         // Si no hay un código de autorización, genera el enlace de inicio de sesión de Google

@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/sesion_config.php';
 require_once __DIR__ . '/autoloader.inc.php';
-require_once '../../back/classes/connection.class.php';
-require_once '../../back/classes/user.class.php';
-require_once '../../back/classes/compra.class.php';
+// require_once '../../back/classes/connection.class.php';
+// require_once '../../back/classes/user.class.php';
+// require_once '../../back/classes/compra.class.php';
 
 
 if(isset($_SESSION["nombre"])
@@ -31,7 +31,9 @@ if(isset($_SESSION["nombre"])
         
        
     }catch(Exception $e){
-        echo $e->getMessage();
+         echo $e->getMessage();
+         echo $e->getFile();
+         echo $e->getLine();
     }
   
 

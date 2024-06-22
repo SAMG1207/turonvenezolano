@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id_botella"]) && isset(
     $stock = new Stock();
 
     if($stock->cuentaAlmacen($id_botella)>0){
-        if ($preventa->alterTable($id_botella, $email)) {
+        if ($preventa->alterTable($id_botella)) {
             echo json_encode(["success" => true, "message" => "La preventa se ha registrado correctamente"]);
         } else {
             echo json_encode(["success" => false, "message" => "Hubo un error al registrar la preventa en la base de datos"]);

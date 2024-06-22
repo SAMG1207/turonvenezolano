@@ -27,7 +27,7 @@ require_once __DIR__ . '/../../src/scripts/pedidos.script.php';
                 }
                 $tabla .="</tbody>";
                 $tabla .="</table>";
-                $tabla.="<a href='index.php'><button type='button' class='btn btn-primary w-100 mb-1 border border-dark shadow-lg'><h6>Volver a la página principal</h6></button></a>";
+                $tabla.="<a href='index'><button type='button' class='btn btn-primary w-100 mb-1 border border-dark shadow-lg'><h6>Volver a la página principal</h6></button></a>";
                 $tabla .="</div>";
                 echo $tabla;
             } else{
