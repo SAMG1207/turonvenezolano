@@ -68,26 +68,40 @@ class Stock{
         return $rows;
     }
 
-    public function seleccionaIdPorModelo(string $marca, string $modelo):array{
-        $sql = "SELECT * FROM productos WHERE marca = ? AND modelo =?";
-        $stmt= $this->pdo->connect()->prepare($sql);
-        $stmt->bindParam(1,$marca);
-        $stmt->bindParam(2,$modelo);
-        $stmt->execute();
-        $rows = $stmt->fetch();
-        // return $rows["precio"];
-        return $rows["idBotella"];
+    public function seleccionaIdPorModelo(string $marca, string $modelo):int{
+        try{
+            $sql = "SELECT * FROM productos WHERE marca = ? AND modelo =?";
+            $stmt= $this->pdo->connect()->prepare($sql);
+            $stmt->bindParam(1,$marca);
+            $stmt->bindParam(2,$modelo);
+            $stmt->execute();
+            $rows = $stmt->fetch();
+            // return $rows["precio"];
+            $this->pdo->close();
+            return $rows["idBotella"];
+        }catch(ExceptionE $e){
+            echo $e->getMessage();
+            return 0;
+        }
+     
     }
 
-    public function seleccionaIdPrecioPorModelo($marca, $modelo){
-        $sql = "SELECT * FROM productos WHERE marca = ? AND modelo =?";
-        $stmt= $this->pdo->connect()->prepare($sql);
-        $stmt->bindParam(1,$marca);
-        $stmt->bindParam(2,$modelo);
-        $stmt->execute();
-        $rows = $stmt->fetch();
-        // return $rows["idBotella"];
-        return $rows["precio"];
+    public function seleccionaIdPrecioPorModelo(string $marca, string $modelo):float{
+        try{
+            $sql = "SELECT * FROM productos WHERE marca = ? AND modelo =?";
+            $stmt= $this->pdo->connect()->prepare($sql);
+            $stmt->bindParam(1,$marca);
+            $stmt->bindParam(2,$modelo);
+            $stmt->execute();
+            $rows = $stmt->fetch();
+            $this->pdo->close();
+            // return $rows["idBotella"];
+            return $rows["precio"];
+        }catch(Exception $e){
+           echo $e->getMessage();
+           return 0;
+        }
+       
     }
 
     public function entradaNueva(string $marca, string $modelo, int $cantidad):bool{
@@ -132,16 +146,32 @@ class Stock{
        
     }
 
-    public function updatePrecio($precio, $marca, $modelo) {
-        $sql = "UPDATE productos SET precio = ? WHERE marca = ? AND modelo = ?";
-        $stmt = $this->pdo->connect()->prepare($sql);
-        $stmt->bindParam(1, $precio);
-        $stmt->bindParam(2, $marca);
-        $stmt->bindParam(3, $modelo);
-        return $stmt->execute();
+    public function updatePrecio(string $precio,string $marca, string $modelo):bool {
+        try{
+            $sql = "UPDATE productos SET precio = ? WHERE marca = ? AND modelo = ?";
+            $stmt = $this->pdo->connect()->prepare($sql);
+            $this->pdo->connect()->beginTransaction();
+            $stmt->bindParam(1, $precio);
+            $stmt->bindParam(2, $marca);
+            $stmt->bindParam(3, $modelo);
+            if($stmt->execute()){
+                $this->pdo->connect()->commit();
+                $this->pdo->close();
+                return true;
+            }
+            $this->pdo->connect()->rollBack();
+            $this->pdo->close();
+            return false;
+        }catch(ExceptionE $e){
+            echo $e->getMessage();
+            $this->pdo->connect()->rollBack();
+            $this->pdo->close();
+            return false;
+        }
+        
     }
 
-    public function actualizaPerdidas($marca, $modelo, $cantidad) {
+    public function actualizaPerdidas(string $marca, string $modelo, int $cantidad):bool {
         try {
             $fecha = date('Y-m-d');
             $id = $this->seleccionaIdPorModelo($marca, $modelo);
@@ -158,29 +188,36 @@ class Stock{
                         fechaCambio = ? 
                     WHERE id_botella = ? 
                     LIMIT ?";
+            
             $stmt = $this->pdo->connect()->prepare($sql);
+            $this->pdo->connect()->beginTransaction();
             $stmt->bindParam(1, $fecha);
             $stmt->bindParam(2, $id, PDO::PARAM_INT);
             $stmt->bindParam(3, $cantidad, PDO::PARAM_INT);
-            
             $stmt->execute();
             
             if ($stmt->rowCount() == 0) {
                 throw new Exception("No se actualizó ninguna fila. Verifique los parámetros proporcionados.");
             }
             
+            $this->pdo->connect()->commit();
+            $this->pdo->close();
             return true;
         } catch (PDOException $e) {
+            $this->pdo->connect()->rollBack();
+            $this->pdo->close();
             echo "Error al ejecutar la consulta: " . $e->getMessage();
             return false;
         } catch (Exception $e) {
+            $this->pdo->connect()->rollBack();
+            $this->pdo->close();
             echo "Error: " . $e->getMessage();
             return false;
         }
     }
     
     
-    public function cuentaAlmacen($id) {
+    public function cuentaAlmacen(int $id):int {
         try {
             $sql = "SELECT id_botella FROM almacen WHERE id_botella = ? and estado = 'almacen'";
             $stmt = $this->pdo->connect()->prepare($sql);
@@ -189,7 +226,7 @@ class Stock{
             return $stmt->rowCount(); // Devuelve el número de filas devueltas por la consulta
         } catch (PDOException $e) {
             echo "Error al ejecutar la consulta: " . $e->getMessage();
-            return false;
+            return 0;
         }
     }
 }

@@ -91,7 +91,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'
   $nuevoPrecio = $_POST["nuevoPrecio"];
  
   if(!empty($marca) && !empty($modelo) && !empty($nuevoPrecio)){
-    $np = intval($nuevoPrecio);
+   $np = intval($nuevoPrecio);
    $precioBase = $stock->seleccionaIdPrecioPorModelo($marca, $modelo);
    $precioMinimo = $precioBase -($precioBase * 0.15);
    if(is_numeric($np) && $precioMinimo <= $np){
